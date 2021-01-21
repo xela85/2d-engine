@@ -1,10 +1,14 @@
 package example.event
 
-sealed trait Event
-object Event {
-//  case object KeyUp extends Event
-//  case object KeyDown extends Event
+import squants.time.{Milliseconds, Time}
 
-  case class TimeElapsed(millis: Long) extends Event
+sealed trait Event
+
+object Event {
+
+  //  case object KeyUp extends Event
+  //  case object KeyDown extends Event
+
+  case class TimeElapsed(value: Time) extends Event
 
 }

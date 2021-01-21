@@ -3,12 +3,11 @@ package example.controller
 import example.event.Event
 import example.model.Model
 
-class Controller {
+object Controller {
 
   def handleEvent(model: Model, event: Event): Model = event match {
-    case Event.TimeElapsed(millis) =>
-      val newRectangles = model.rectangles
-        .map()
+    case Event.TimeElapsed(time) =>
+      model.copy(rectangles = model.rectangles.map(_.animate(time)))
 
   }
 
