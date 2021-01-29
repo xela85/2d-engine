@@ -14,7 +14,7 @@ class Test extends AnyWordSpec with Matchers {
     val model = Model(20, List(rectangle))
     val updatedModel = Controller.handleEvent(model, TimeElapsed(Seconds(1)))
     updatedModel.rectangles.head.inertia.speed shouldBe Speed(MetersPerSecond(0), MetersPerSecond(9.81))
-    updatedModel.rectangles.head.position shouldBe Vector(Meters(0), Meters(19.62))
+    updatedModel.rectangles.head.bottomLeft shouldBe Vector(Meters(0), Meters(19.62))
 
   }
 

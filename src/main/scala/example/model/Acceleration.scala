@@ -16,7 +16,7 @@ object Acceleration {
 
   case object Constant extends Kind
 
-  val gravity: Acceleration = Acceleration(Constant, MetersPerSecondSquared(0), MetersPerSecondSquared(9.81))
+  val gravity: Acceleration = Acceleration(Constant, MetersPerSecondSquared(0), -MetersPerSecondSquared(9.81))
 
   implicit val monoidForAcceleration: Monoid[Acceleration] = new Monoid[Acceleration] {
     override def empty: Acceleration = Acceleration(Ponctual, MetersPerSecondSquared(0), MetersPerSecondSquared(0))

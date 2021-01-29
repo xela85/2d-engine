@@ -11,9 +11,12 @@ object View {
   }
 
   def render(rectangle: Rectangle, pixelsPerMeter: Int, context: ViewContext): Unit = {
-    val position = Pixel.fromVector(rectangle.position, pixelsPerMeter)
+    val topLeft = Pixel.fromVector(rectangle.topLeft, pixelsPerMeter)
     val size = Pixel.fromVector(rectangle.size, pixelsPerMeter)
-    context.canvas.fillRect(position.x, position.y, size.x, size.y)
+    //println(rectangle)
+    //println(s"top left: $topLeft")
+    //println(s"bottom right: $size")
+    context.canvas.fillRect(topLeft.x, context.height - topLeft.y, size.x, size.y)
   }
 
 }

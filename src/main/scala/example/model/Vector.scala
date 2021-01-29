@@ -13,11 +13,15 @@ case class Vector(x: Length, y: Length) {
     )
   }
 
+  def -(v: Vector): Vector = Vector(x - v.x, y - v.y)
+  def +(v: Vector): Vector = Vector(x + v.x, y + v.y)
+
 }
 
 object Vector {
   implicit val monoidForPosition: Monoid[Vector] = new Monoid[Vector] {
     override def empty: Vector = Vector(Meters(0), Meters(0))
-    override def combine(x: Vector, y: Vector): Vector = Vector(x.x + y.x, y.y + y.y)
+
+    override def combine(x: Vector, y: Vector): Vector = x + y
   }
 }
