@@ -10,5 +10,6 @@ object Event {
   //  case object KeyDown extends Event
 
   case class TimeElapsed(value: Time) extends Event
+  case class WindowResized(width: Int, height: Int) extends Event
 
 }
