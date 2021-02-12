@@ -3,7 +3,6 @@ package example.model
 import cats.kernel.Monoid
 import squants.{Meters, Time}
 import cats.syntax.monoid._
-import squants.motion.MetersPerSecond
 
 
 case class Rectangle(bottomLeft: Vector, size: Vector, inertia: Inertia, speedOffset: Speed) {

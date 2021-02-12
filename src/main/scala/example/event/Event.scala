@@ -6,10 +6,11 @@ sealed trait Event
 
 object Event {
 
-  //  case object KeyUp extends Event
-  //  case object KeyDown extends Event
-
   case class TimeElapsed(value: Time) extends Event
   case class WindowResized(width: Int, height: Int) extends Event
+  case object Jump extends Event
+  case object GoRight extends Event
+  case object GoLeft extends Event
+  case object ResetMovement extends Event
 
 }

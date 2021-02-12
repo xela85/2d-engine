@@ -16,11 +16,13 @@ object App {
     val rectangle = Rectangle.create(Vector(Meters(0), Meters(20)), Vector(Meters(3), Meters(3)))
     val startTime = window.performance.now()
     val windowSize = Window(1920, 720)
-    val model = Model(20, windowSize, List(rectangle), None)
+    val model = Model(20, windowSize, rectangle)
 
     val game = new JSGame(window, model, ViewContext(canvas, canvasElm))
     game.resizeWindow()
     game.handleWindowResizeEvent()
+    game.handleKeyEvents()
+
     game.animate(startTime, startTime)
   }
 

@@ -14,6 +14,8 @@ lazy val root = (project in file("."))
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "1.1.0",
     libraryDependencies += "org.typelevel" %%% "squants" % "1.6.0",
     libraryDependencies += "org.typelevel" %%% "cats-core" % "2.3.1",
+    libraryDependencies += "com.github.julien-truffaut" %%% "monocle-core" % "2.0.3",
+    libraryDependencies += "com.github.julien-truffaut" %%% "monocle-macro" % "2.0.3",
     libraryDependencies += scalaTest % Test
   )
 

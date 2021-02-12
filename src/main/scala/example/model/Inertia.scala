@@ -13,6 +13,9 @@ case class Inertia(speed: Speed, accelerations: List[Acceleration]) {
     Inertia(newSpeed, accelerations = accelerations.filter(_.kind == Constant))
   }
 
+  def addAcceleration(acceleration: Acceleration): Inertia =
+    copy(speed = speed, accelerations = acceleration :: accelerations)
+
 }
 
 object Inertia {
