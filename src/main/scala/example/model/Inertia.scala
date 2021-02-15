@@ -3,21 +3,20 @@ package example.model
 import cats.kernel.Monoid
 import cats.syntax.foldable._
 import cats.syntax.monoid._
-import example.model.Acceleration.Constant
+import example.model.AppliedForce.Constant
 import squants.Time
+import squants.mass.Mass
 
-case class Inertia(speed: Speed, accelerations: List[Acceleration]) {
+case class Inertia(lastSpeed: Speed, mass: Mass, forces: List[AppliedForce]) {
 
   def next(elapsedTime: Time): Inertia = {
-    val newSpeed = speed |+| accelerations.foldMap(_.toSpeed(elapsedTime))
-    Inertia(newSpeed, accelerations = accelerations.filter(_.kind == Constant))
+    val newSpeed = lastSpeed |+| acceleration.toSpeed(elapsedTime)
+    Inertia(newSpeed, mass, forces = forces.flatMap(_.transform(elapsedTime)))
   }
 
-  def addAcceleration(acceleration: Acceleration): Inertia =
-    copy(speed = speed, accelerations = acceleration :: accelerations)
+  def addForce(force: AppliedForce): Inertia =
+    copy(forces = force :: forces)
 
-}
+  def acceleration: Acceleration = forces.map(_.vector).combineAll.toAcceleration(mass)
 
-object Inertia {
-  def empty: Inertia = Inertia(Monoid.empty[Speed], Nil)
 }
