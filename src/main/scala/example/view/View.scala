@@ -22,10 +22,13 @@ object View {
 
     shape.shape match {
       case Entity.RectangleShape(rectangle) =>
-        val topLeft = Pixel.fromVector(rectangle.topLeft, model.pixelsPerMeter)
-        val size = Pixel.fromVector(rectangle.size, model.pixelsPerMeter)
+        val topLeft = Pixel.fromPosition(rectangle.topLeft, model.pixelsPerMeter)
+        val size = Pixel.fromPosition(rectangle.size, model.pixelsPerMeter)
         context.canvas.fillRect(topLeft.x, model.window.height - topLeft.y, size.x, size.y)
-      case Entity.CircleShape(circleShape) => ???
+      case Entity.CircleShape(circle) =>
+        val center = Pixel.fromPosition(circle.center, model.pixelsPerMeter)
+        context.canvas.arc(center.x, model.window.height - center.y, Pixel.fromLength(circle.radius, model.pixelsPerMeter), 0, 2 * Math.PI)
+        context.canvas.fill()
     }
 
 

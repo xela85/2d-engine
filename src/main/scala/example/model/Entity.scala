@@ -4,28 +4,29 @@ import cats.kernel.Monoid
 import example.model.shape.{Circle, Rectangle}
 import squants.Time
 import cats.syntax.semigroup._
+import monocle.macros.syntax.lens._
 
-case class Entity(shape: Entity.Shape, inertia: Inertia, speedOffset: Speed) {
+case class Entity(shape: Entity.Shape, center: Position, inertia: Inertia, speedOffset: Speed) {
   def animate(timeElapsed: Time): Entity = {
     val newInertia = inertia.next(timeElapsed)
     val displacement = (newInertia.lastSpeed |+| speedOffset).toDisplacement(timeElapsed)
 
-    val kind = this.shape match {
-      case Entity.RectangleShape(rectangleShape) => Entity.RectangleShape(Rectangle(rectangleShape.bottomLeft + displacement, rectangleShape.size))
-      case Entity.CircleShape(rectangleShape) => ???
+    val newShape = this.shape match {
+      case Entity.RectangleShape(rectangle) => Entity.RectangleShape(rectangle.lens(_.bottomLeft).modify(_ + displacement))
+      case Entity.CircleShape(circle) => Entity.CircleShape(circle.lens(_.center).modify(_ + displacement))
     }
-    Entity(kind, newInertia, speedOffset).collideWithBottom
+    copy(shape = newShape, inertia = newInertia, center = center + displacement).collideWithBottom
   }
 
   def collidesWithBottom: Boolean = this.shape match {
     case Entity.RectangleShape(rectangle) => rectangle.collidesWithBottom
-    case Entity.CircleShape(circle) => false
+    case Entity.CircleShape(circle) => circle.collidesWithBottom
   }
 
-  private def collideWithBottom: Entity = if(collidesWithBottom) {
+  private def collideWithBottom: Entity = if (collidesWithBottom) {
     val newShape = this.shape match {
-      case Entity.RectangleShape(rectangleShape) => Entity.RectangleShape(rectangleShape.collide)
-      case Entity.CircleShape(circleShape) => ???
+      case Entity.RectangleShape(rectangle) => Entity.RectangleShape(rectangle.collide)
+      case Entity.CircleShape(circle) => Entity.CircleShape(circle.collide)
     }
     copy(inertia = inertia.copy(lastSpeed = Speed.none), shape = newShape)
   } else this
@@ -39,8 +40,8 @@ object Entity {
 
   case class CircleShape(circle: Circle) extends Shape
 
-  def rectangle(rectangle: Rectangle, inertia: Inertia, speedOffset: Speed) = Entity(RectangleShape(rectangle), inertia, speedOffset)
+  def rectangle(rectangle: Rectangle, inertia: Inertia, speedOffset: Speed) = Entity(RectangleShape(rectangle), rectangle.center, inertia, speedOffset)
 
-  def circle(circle: Circle, inertia: Inertia, speedOffset: Speed) = Entity(CircleShape(circle), inertia, speedOffset)
+  def circle(circle: Circle, inertia: Inertia, speedOffset: Speed) = Entity(CircleShape(circle), circle.center, inertia, speedOffset)
 
 }

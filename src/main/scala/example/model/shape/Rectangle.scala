@@ -14,11 +14,11 @@ case class Rectangle(bottomLeft: Position, size: Position) {
 
   def collidesWithBottom: Boolean = bottomLeft.value.y <= 0.meters
 
+  def center: Position = Position((bottomLeft.value + size.value).map(_ / 2))
+
   def collide: Rectangle = if (collidesWithBottom) {
     val newBottomLeft = bottomLeft.lens(_.value.y).set(0.meters)
-    copy(
-      bottomLeft = newBottomLeft
-    )
+    copy(bottomLeft = newBottomLeft)
   } else this
 
 }

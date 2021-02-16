@@ -2,14 +2,11 @@ package example.controller
 
 import example.event.Event
 import example.model.AppliedForce.Ponctual
-import example.model.{Acceleration, AppliedForce, ForceVector, Model, Speed, Vec2, Window}
+import example.model.{AppliedForce, ForceVector, Model, Speed, Vec2, Window}
 import monocle.macros.syntax.lens._
 import squants.motion.VelocityConversions._
-import squants.space.LengthConversions._
 import squants.motion.ForceConversions._
 import squants.time.TimeConversions._
-import squants.Meters
-import squants.motion.{Force, MetersPerSecond, MetersPerSecondSquared}
 
 object Controller {
 

@@ -1,7 +1,7 @@
 package example
 
 import cats.kernel.Monoid
-import example.model.shape.Rectangle
+import example.model.shape.{Circle, Rectangle}
 import example.model.{AppliedForce, Entity, Inertia, Model, Position, Speed, Vec2, Window}
 import example.view.ViewContext
 import org.scalajs.dom.html.Canvas
@@ -18,7 +18,8 @@ object App {
     val canvasElm = document.getElementById("game-canvas").asInstanceOf[HTMLCanvasElement]
     val canvas = canvasElm.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
     val rectangle = Rectangle.create(Position(Vec2(0.meters, 20.meters)), Position(Vec2(3.meters, 3.meters)))
-    val player = Entity.rectangle(rectangle, Inertia.mass(60.kilograms), Speed.none)
+    val circle = Circle(Position(Vec2(20.meters, 20.meters)), 3.meters)
+    val player = Entity.circle(circle, Inertia.mass(60.kilograms), Speed.none)
     val startTime = window.performance.now()
     val windowSize = Window(1920, 720)
     val model = Model(20, windowSize, player)
