@@ -1,6 +1,6 @@
 package example.view
 
-import example.model.{Model, Rectangle}
+import example.model.{Model, Entity}
 
 object View {
 
@@ -11,20 +11,24 @@ object View {
     render(model, model.player, context)
   }
 
-  def render(model: Model, rectangle: Rectangle, context: ViewContext): Unit = {
-    val topLeft = Pixel.fromVector(rectangle.topLeft, model.pixelsPerMeter)
-    val size = Pixel.fromVector(rectangle.size, model.pixelsPerMeter)
+  def render(model: Model, shape: Entity, context: ViewContext): Unit = {
     renderComments(
       List(
         model.player.inertia.toString,
-        rectangle.toString,
-        s"top left: $topLeft",
-        s"size: $size",
-        s"context.canvas.fillRect(${topLeft.x}, ${model.window.height - topLeft.y}, ${size.x}, ${size.y})"
+        shape.toString,
       ),
       context
     )
-    context.canvas.fillRect(topLeft.x, model.window.height - topLeft.y, size.x, size.y)
+
+    shape.shape match {
+      case Entity.RectangleShape(rectangle) =>
+        val topLeft = Pixel.fromVector(rectangle.topLeft, model.pixelsPerMeter)
+        val size = Pixel.fromVector(rectangle.size, model.pixelsPerMeter)
+        context.canvas.fillRect(topLeft.x, model.window.height - topLeft.y, size.x, size.y)
+      case Entity.CircleShape(circleShape) => ???
+    }
+
+
   }
 
 

@@ -20,3 +20,9 @@ case class Inertia(lastSpeed: Speed, mass: Mass, forces: List[AppliedForce]) {
   def acceleration: Acceleration = forces.map(_.vector).combineAll.toAcceleration(mass)
 
 }
+
+object Inertia {
+
+  def mass(mass: Mass) = Inertia(Speed.none, mass, List(AppliedForce.gravity(mass)))
+
+}

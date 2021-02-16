@@ -18,7 +18,7 @@ object Controller {
       model.copy(player = model.player.animate(time))
     case Event.WindowResized(width, height) =>
       model.copy(window = Window(width, height))
-    case Event.Jump if model.player.bottomLeft.y == 0.meters =>
+    case Event.Jump if model.player.collidesWithBottom =>
       model.lens(_.player.inertia)
         .modify(_.addForce(AppliedForce(Ponctual(.2.seconds), ForceVector(0.newtons, 3000.newtons))))
     case Event.GoLeft =>
