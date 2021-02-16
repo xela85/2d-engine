@@ -5,8 +5,8 @@ import squants.Time
 import squants.motion.AccelerationConversions._
 import squants.motion.MetersPerSecondSquared
 
-case class Acceleration(x: squants.motion.Acceleration, y: squants.motion.Acceleration) {
-  def toSpeed(elapsedTime: Time): Speed = Speed(x * elapsedTime, y * elapsedTime)
+case class Acceleration(value: Vec2[squants.motion.Acceleration]) {
+  def toSpeed(elapsedTime: Time): Speed = Speed(value.map(_ * elapsedTime))
 }
 
 

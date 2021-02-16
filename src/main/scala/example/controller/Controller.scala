@@ -2,7 +2,7 @@ package example.controller
 
 import example.event.Event
 import example.model.AppliedForce.Ponctual
-import example.model.{Acceleration, AppliedForce, ForceVector, Model, Speed, Window}
+import example.model.{Acceleration, AppliedForce, ForceVector, Model, Speed, Vec2, Window}
 import monocle.macros.syntax.lens._
 import squants.motion.VelocityConversions._
 import squants.space.LengthConversions._
@@ -20,16 +20,16 @@ object Controller {
       model.copy(window = Window(width, height))
     case Event.Jump if model.player.collidesWithBottom =>
       model.lens(_.player.inertia)
-        .modify(_.addForce(AppliedForce(Ponctual(.2.seconds), ForceVector(0.newtons, 3000.newtons))))
+        .modify(_.addForce(AppliedForce(Ponctual(.2.seconds), ForceVector(Vec2(0.newtons, 3000.newtons)))))
     case Event.GoLeft =>
-      model.lens(_.player.speedOffset.x)
+      model.lens(_.player.speedOffset.value.x)
         .set(-10.mps)
     case Event.GoRight =>
-      model.lens(_.player.speedOffset.x)
+      model.lens(_.player.speedOffset.value.x)
         .set(10.mps)
     case Event.ResetMovement =>
       model.lens(_.player.speedOffset)
-        .set(Speed(0.mps, 0.mps))
+        .set(Speed(Vec2(0.mps, 0.mps)))
     case _ => model
   }
 

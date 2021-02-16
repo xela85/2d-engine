@@ -1,20 +1,21 @@
 package example.model.shape
 
 import cats.kernel.Monoid
-import example.model.{AppliedForce, Inertia, Speed, Vector}
+import example.model.{AppliedForce, Inertia, Speed, Position}
 import squants.mass.Mass
 import squants.space.LengthConversions._
+import monocle.macros.syntax.lens._
 
-case class Rectangle(bottomLeft: Vector, size: Vector) {
+case class Rectangle(bottomLeft: Position, size: Position) {
 
-  def topRight: Vector = bottomLeft + size
+  def topRight: Position = bottomLeft + size
 
-  def topLeft: Vector = bottomLeft + size.copy(x = 0.meters)
+  def topLeft: Position = bottomLeft + size.lens(_.value.x).set(0.meters)
 
-  def collidesWithBottom: Boolean = bottomLeft.y <= 0.meters
+  def collidesWithBottom: Boolean = bottomLeft.value.y <= 0.meters
 
   def collide: Rectangle = if (collidesWithBottom) {
-    val newBottomLeft = bottomLeft.copy(y = 0.meters)
+    val newBottomLeft = bottomLeft.lens(_.value.y).set(0.meters)
     copy(
       bottomLeft = newBottomLeft
     )
@@ -24,7 +25,7 @@ case class Rectangle(bottomLeft: Vector, size: Vector) {
 
 object Rectangle {
 
-  def create(position: Vector, size: Vector): Rectangle = Rectangle(position, size)
+  def create(position: Position, size: Position): Rectangle = Rectangle(position, size)
 
 
 }

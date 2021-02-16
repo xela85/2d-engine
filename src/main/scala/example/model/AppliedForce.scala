@@ -30,7 +30,7 @@ object AppliedForce {
 
   case object Constant extends Kind
 
-  def gravity(mass: Mass): AppliedForce = AppliedForce(Constant, ForceVector(0.newtons, -mass * 9.81.mpss))
+  def gravity(mass: Mass): AppliedForce = AppliedForce(Constant, ForceVector(Vec2(0.newtons, -mass * 9.81.mpss)))
 
 
 }
